@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CareerFlow - A modern, lightweight job application tracker built with semantic HTML, CSS, and Vanilla JavaScript." />
+  <title>CareerFlow — Job Application Tracker</title>
+
+  <!-- Google Fonts: Inter for clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet Link -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ================================================================= -->
+  <!-- 1. APPLICATION HEADER & GLOBAL NAVIGATION                         -->
+  <!-- ================================================================= -->
+  <header class="app-header">
+    <div class="header-container">
+      <!-- Brand & Logo -->
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">Career<span>Flow</span></h1>
+          <p class="brand-subtitle">Job Search & Application Pipeline</p>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions">
+        <!-- Theme Switcher Button -->
+        <button id="theme-toggle-btn" class="btn btn-icon" type="button" aria-label="Toggle dark mode" title="Toggle theme">
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <!-- Moon Icon (shown in light mode) -->
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+
+        <!-- Primary Call to Action: Add Job Button -->
+        <button id="open-add-modal-btn" class="btn btn-primary" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <span>Add Application</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- 2. MAIN APPLICATION CONTENT                                       -->
+  <!-- ================================================================= -->
+  <main class="main-container">
+
+    <!-- --------------------------------------------------------------- -->
+    <!-- 2A. DASHBOARD OVERVIEW: APPLICATION STATISTICS CARDS           -->
+    <!-- --------------------------------------------------------------- -->
+    <section class="stats-section" aria-label="Application Summary Statistics">
+      <div class="stats-grid">
+        
+        <!-- Total Applications Card -->
+        <article class="stat-card" id="stat-total">
+          <div class="stat-icon-wrapper stat-icon-blue" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Total Applied</p>
+            <h2 class="stat-value" id="stat-count-total">0</h2>
+          </div>
+        </article>
+
+        <!-- Active Interviews Card -->
+        <article class="stat-card" id="stat-interviewing">
+          <div class="stat-icon-wrapper stat-icon-amber" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Interviews</p>
+            <h2 class="stat-value" id="stat-count-interviewing">0</h2>
+          </div>
+        </article>
+
+        <!-- Offers Received Card -->
+        <article class="stat-card" id="stat-offers">
+          <div class="stat-icon-wrapper stat-icon-green" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="7"/>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Offers</p>
+            <h2 class="stat-value" id="stat-count-offers">0</h2>
+          </div>
+        </article>
+
+        <!-- Response / Conversion Rate Card -->
+        <article class="stat-card" id="stat-rate">
+          <div class="stat-icon-wrapper stat-icon-purple" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Response Rate</p>
+            <h2 class="stat-value" id="stat-count-rate">0%</h2>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------- -->
+    <!-- 2B. TOOLBAR: SEARCH, FILTERS, AND VIEW TOGGLE                   -->
+    <!-- --------------------------------------------------------------- -->
+    <section class="toolbar-section" aria-label="Search and Filter Controls">
+      <div class="toolbar">
+        
+        <!-- Live Search Input -->
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input 
+            type="search" 
+            id="search-input" 
+            placeholder="Search by company, role, or location..." 
+            aria-label="Search job applications"
+          />
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <!-- Status Filter -->
+          <div class="select-wrapper">
+            <select id="filter-status" aria-label="Filter by application status">
+              <option value="all">All Statuses</option>
+              <option value="wishlist">Wishlist</option>
+              <option value="applied">Applied</option>
+              <option value="interviewing">Interviewing</option>
+              <option value="offer">Offer</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+
+          <!-- Job Type Filter -->
+          <div class="select-wrapper">
+            <select id="filter-type" aria-label="Filter by job type">
+              <option value="all">All Job Types</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
+
+          <!-- Work Mode Filter -->
+          <div class="select-wrapper">
+            <select id="filter-location" aria-label="Filter by workplace mode">
+              <option value="all">All Locations</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- View Switcher (Kanban vs Table) & Actions -->
+        <div class="view-and-actions">
+          <div class="view-toggle" role="group" aria-label="View toggle">
+            <button id="view-kanban-btn" class="btn-toggle active" type="button" aria-pressed="true" title="Kanban Board View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="18" rx="1"/>
+                <rect x="14" y="3" width="7" height="10" rx="1"/>
+              </svg>
+              <span>Board</span>
+            </button>
+            <button id="view-table-btn" class="btn-toggle" type="button" aria-pressed="false" title="Table List View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+              <span>Table</span>
+            </button>
+          </div>
+
+          <!-- Export Data Button -->
+          <button id="export-data-btn" class="btn btn-secondary" type="button" title="Export applications as JSON">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Export</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------- -->
+    <!-- 2C. PRIMARY VIEW: KANBAN WORKFLOW BOARD                         -->
+    <!-- --------------------------------------------------------------- -->
+    <section id="kanban-view" class="view-container kanban-view" aria-label="Job Applications Board">
+      <div class="kanban-grid">
+
+        <!-- Column 1: Wishlist -->
+        <div class="kanban-column" data-status="wishlist">
+          <header class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-slate" aria-hidden="true"></span>
+              <h3 class="column-title">Wishlist</h3>
+              <span class="column-count" id="count-wishlist">0</span>
+            </div>
+            <button class="column-add-btn" type="button" data-status="wishlist" aria-label="Add job to Wishlist" title="Quick add to Wishlist">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </header>
+          <div class="column-dropzone" id="column-wishlist" data-status="wishlist">
+            <!-- Dynamic Job Cards will be injected here via JavaScript -->
+            <div class="empty-column-placeholder">
+              <p>No jobs saved yet</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Applied -->
+        <div class="kanban-column" data-status="applied">
+          <header class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-blue" aria-hidden="true"></span>
+              <h3 class="column-title">Applied</h3>
+              <span class="column-count" id="count-applied">0</span>
+            </div>
+            <button class="column-add-btn" type="button" data-status="applied" aria-label="Add job to Applied" title="Quick add to Applied">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </header>
+          <div class="column-dropzone" id="column-applied" data-status="applied">
+            <!-- Dynamic Job Cards injected here -->
+            <div class="empty-column-placeholder">
+              <p>No applications sent</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Interviewing -->
+        <div class="kanban-column" data-status="interviewing">
+          <header class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-amber" aria-hidden="true"></span>
+              <h3 class="column-title">Interviewing</h3>
+              <span class="column-count" id="count-interviewing">0</span>
+            </div>
+            <button class="column-add-btn" type="button" data-status="interviewing" aria-label="Add job to Interviewing" title="Quick add to Interviewing">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </header>
+          <div class="column-dropzone" id="column-interviewing" data-status="interviewing">
+            <!-- Dynamic Job Cards injected here -->
+            <div class="empty-column-placeholder">
+              <p>No active interviews</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4: Offer -->
+        <div class="kanban-column" data-status="offer">
+          <header class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-green" aria-hidden="true"></span>
+              <h3 class="column-title">Offers</h3>
+              <span class="column-count" id="count-offer">0</span>
+            </div>
+            <button class="column-add-btn" type="button" data-status="offer" aria-label="Add job to Offers" title="Quick add to Offers">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </header>
+          <div class="column-dropzone" id="column-offer" data-status="offer">
+            <!-- Dynamic Job Cards injected here -->
+            <div class="empty-column-placeholder">
+              <p>No offers yet</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 5: Rejected -->
+        <div class="kanban-column" data-status="rejected">
+          <header class="column-header">
+            <div class="column-title-group">
+              <span class="column-dot dot-red" aria-hidden="true"></span>
+              <h3 class="column-title">Rejected</h3>
+              <span class="column-count" id="count-rejected">0</span>
+            </div>
+            <button class="column-add-btn" type="button" data-status="rejected" aria-label="Add job to Rejected" title="Quick add to Rejected">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </header>
+          <div class="column-dropzone" id="column-rejected" data-status="rejected">
+            <!-- Dynamic Job Cards injected here -->
+            <div class="empty-column-placeholder">
+              <p>No archived records</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------- -->
+    <!-- 2D. ALTERNATE VIEW: SORTABLE TABLE LIST                         -->
+    <!-- --------------------------------------------------------------- -->
+    <section id="table-view" class="view-container table-view is-hidden" aria-label="Job Applications Table">
+      <div class="table-wrapper">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th scope="col" class="sortable" data-sort="company">Company & Role</th>
+              <th scope="col" class="sortable" data-sort="status">Status</th>
+              <th scope="col" class="sortable" data-sort="type">Job Type</th>
+              <th scope="col" class="sortable" data-sort="location">Location</th>
+              <th scope="col" class="sortable" data-sort="salary">Salary</th>
+              <th scope="col" class="sortable" data-sort="date">Applied Date</th>
+              <th scope="col" class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Dynamic Table Rows injected here via JavaScript -->
+            <tr class="empty-table-row">
+              <td colspan="7" class="text-center">No applications found matching your criteria.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- 3. APPLICATION DETAIL SLIDE-OVER DRAWER                           -->
+  <!-- ================================================================= -->
+  <aside id="detail-drawer" class="drawer" aria-label="Job Details Drawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer-panel">
+      
+      <!-- Drawer Header -->
+      <header class="drawer-header">
+        <div class="drawer-header-content">
+          <span class="badge" id="drawer-badge-status">Applied</span>
+          <h2 class="drawer-title" id="drawer-position">Senior Frontend Developer</h2>
+          <p class="drawer-subtitle" id="drawer-company">Stripe • San Francisco, CA (Remote)</p>
+        </div>
+        <button id="close-drawer-btn" class="btn btn-icon" type="button" aria-label="Close drawer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Drawer Body -->
+      <div class="drawer-body">
+        
+        <!-- Info Grid -->
+        <div class="drawer-info-grid">
+          <div class="info-item">
+            <span class="info-label">Applied Date</span>
+            <span class="info-value" id="drawer-date">2026-08-20</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Salary Range</span>
+            <span class="info-value" id="drawer-salary">$120,000 - $150,000</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Job Type</span>
+            <span class="info-value" id="drawer-type">Full-time</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Work Mode</span>
+            <span class="info-value" id="drawer-location-type">Remote</span>
+          </div>
+        </div>
+
+        <!-- Job Link -->
+        <div class="drawer-section" id="drawer-link-container">
+          <h4 class="drawer-section-title">Job Posting</h4>
+          <a id="drawer-job-link" href="#" target="_blank" rel="noopener noreferrer" class="external-link">
+            <span>View Original Posting</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Contact Person -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">Recruiter / Contact</h4>
+          <div class="contact-card" id="drawer-contact-card">
+            <p class="contact-name" id="drawer-contact-name">Not specified</p>
+            <p class="contact-email" id="drawer-contact-email"></p>
+          </div>
+        </div>
+
+        <!-- Notes / Preparation -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">Notes & Interview Logs</h4>
+          <div class="notes-box" id="drawer-notes">
+            No notes added yet for this application.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Drawer Footer Actions -->
+      <footer class="drawer-footer">
+        <button id="drawer-edit-btn" class="btn btn-secondary" type="button">Edit Application</button>
+        <button id="drawer-delete-btn" class="btn btn-danger" type="button">Delete</button>
+      </footer>
+
+    </div>
+  </aside>
+
+  <!-- ================================================================= -->
+  <!-- 4. ADD / EDIT JOB APPLICATION MODAL (<dialog>)                    -->
+  <!-- ================================================================= -->
+  <dialog id="job-modal" class="modal" aria-labelledby="modal-title">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+      <header class="modal-header">
+        <h2 id="modal-title" class="modal-title">Add Job Application</h2>
+        <button id="close-modal-btn" class="btn btn-icon" type="button" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Modal Form -->
+      <form id="job-form" class="modal-form" novalidate>
+        <!-- Hidden input for edit mode -->
+        <input type="hidden" id="job-id" name="id" value="" />
+
+        <!-- Row 1: Company & Job Title -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="company">Company Name <span class="required-star">*</span></label>
+            <input 
+              type="text" 
+              id="company" 
+              name="company" 
+              placeholder="e.g. Google, Stripe, Spotify" 
+              required 
+            />
+            <span class="field-error" id="error-company" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="position">Job Title / Role <span class="required-star">*</span></label>
+            <input 
+              type="text" 
+              id="position" 
+              name="position" 
+              placeholder="e.g. Frontend Engineer" 
+              required 
+            />
+            <span class="field-error" id="error-position" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 2: Status & Applied Date -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="status">Status <span class="required-star">*</span></label>
+            <select id="status" name="status" required>
+              <option value="wishlist">Wishlist</option>
+              <option value="applied" selected>Applied</option>
+              <option value="interviewing">Interviewing</option>
+              <option value="offer">Offer</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <span class="field-error" id="error-status" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="appliedDate">Applied Date <span class="required-star">*</span></label>
+            <input 
+              type="date" 
+              id="appliedDate" 
+              name="appliedDate" 
+              required 
+            />
+            <span class="field-error" id="error-appliedDate" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 3: Job Type & Workplace Location -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="jobType">Job Type</label>
+            <select id="jobType" name="jobType">
+              <option value="Full-time" selected>Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+            <span class="field-error" id="error-jobType" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="workLocation">Workplace Mode</label>
+            <select id="workLocation" name="workLocation">
+              <option value="Remote" selected>Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+            <span class="field-error" id="error-workLocation" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 4: Location / City & Job URL -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="location">Location (City/Region)</label>
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              placeholder="e.g. San Francisco, CA / London, UK" 
+            />
+            <span class="field-error" id="error-location" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="jobUrl">Job Posting URL</label>
+            <input 
+              type="url" 
+              id="jobUrl" 
+              name="jobUrl" 
+              placeholder="https://company.com/jobs/123" 
+            />
+            <span class="field-error" id="error-jobUrl" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 5: Salary Range (Min - Max) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="salaryMin">Min Salary ($/yr)</label>
+            <input 
+              type="number" 
+              id="salaryMin" 
+              name="salaryMin" 
+              placeholder="e.g. 90000" 
+              min="0" 
+              step="1000" 
+            />
+            <span class="field-error" id="error-salaryMin" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="salaryMax">Max Salary ($/yr)</label>
+            <input 
+              type="number" 
+              id="salaryMax" 
+              name="salaryMax" 
+              placeholder="e.g. 130000" 
+              min="0" 
+              step="1000" 
+            />
+            <span class="field-error" id="error-salaryMax" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 6: Recruiter Contact (Name & Email) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contactName">Contact / Recruiter Name</label>
+            <input 
+              type="text" 
+              id="contactName" 
+              name="contactName" 
+              placeholder="e.g. Jane Doe" 
+            />
+            <span class="field-error" id="error-contactName" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="contactEmail">Contact Email</label>
+            <input 
+              type="email" 
+              id="contactEmail" 
+              name="contactEmail" 
+              placeholder="jane@company.com" 
+            />
+            <span class="field-error" id="error-contactEmail" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Row 7: Notes & Interview Log -->
+        <div class="form-group">
+          <label for="notes">Notes & Interview Details</label>
+          <textarea 
+            id="notes" 
+            name="notes" 
+            rows="3" 
+            placeholder="Key talking points, recruiter follow-up dates, referral info..."
+          ></textarea>
+          <span class="field-error" id="error-notes" aria-live="polite"></span>
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <footer class="modal-footer">
+          <button id="cancel-modal-btn" class="btn btn-secondary" type="button">Cancel</button>
+          <button id="submit-job-btn" class="btn btn-primary" type="submit">Save Application</button>
+        </footer>
+      </form>
+
+    </div>
+  </dialog>
+
+  <!-- ================================================================= -->
+  <!-- 5. TOAST NOTIFICATION CONTAINER                                   -->
+  <!-- ================================================================= -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Application Script Module Placeholder (To be connected in later steps) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
