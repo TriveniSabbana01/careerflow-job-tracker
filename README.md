@@ -32,6 +32,8 @@ CareerFlow is a responsive job application tracking web application designed to 
 ## Live Demo
 
 Deployed using Amazon S3 Static Website Hosting.
+🌐 [View Live CareerFlow Website](http://careerflow-job-tracker-triveni.s3-website-us-east-1.amazonaws.com/)
+
 
 ## Purpose
 
